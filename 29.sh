@@ -140,4 +140,57 @@ else
     cat "$file1" "$file2" > concatenated.txt
     echo "Files concatenated into 'concatenated.txt'."
 fi
+#!/bin/bash
+#39
+# Predefined password
+PASSWORD="1234"
+
+# Give the user 3 attempts
+for attempt in 1 2 3
+do
+    echo -n "Enter password: "
+    read -s user_pass
+    echo
+    if [ "$user_pass" == "$PASSWORD" ]; then
+        echo "Access Granted!"
+
+        while true
+        do
+            echo "---------------------------------"
+            echo "Menu:"
+            echo "1) Number of users currently logged in"
+            echo "2) Current month (Windows safe)"
+            echo "3) Current date (dd / mm / yyyy)"
+            echo "4) Exit"
+            echo "---------------------------------"
+            read -p "Enter your choice [1-4]: " choice
+
+            case $choice in
+                1) 
+                    # works in Git Bash / WSL
+                    who 2>/dev/null | wc -l || echo "who not available on Windows"
+                    ;;
+                2) 
+                    # Show current month instead of full calendar
+                    date +"%B %Y"
+                    ;;
+                3) 
+                    # dd / mm / yyyy format
+                    date +"%d / %m / %Y"
+                    ;;
+                4) 
+                    echo "Exiting..."
+                    exit 0
+                    ;;
+                *) 
+                    echo "Invalid choice! Try again."
+                    ;;
+            esac
+        done
+    else
+        echo "Wrong password (Attempt $attempt of 3)"
+    fi
+done
+
+echo "Access Denied. Too many wrong attempts."
 
